@@ -1,17 +1,45 @@
 <?php
 
+interface Product
+{
+    public function getProduce();
+}
+
+class CowProduct implements Product
+{
+    public function getProduce(): int
+    {
+        return rand(0, 5);
+    }
+}
+
+class ChickenProduct implements Product
+{
+    public function getProduce(): int
+    {
+        return rand(0, 5);
+    }
+}
 
 abstract class Animal
 {
     protected $registrationNumber;
     public static $countEat = 0;
     public static $count = 0;
+    private $product;
 
-    abstract function collect(): int;
+    // abstract function collect(): int;
 
-    public function __construct()
+    public function __construct(Product $product)
     {
         static::$count++;
+
+        $this->product = $product;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
     }
 
     public static function getCount()
@@ -21,9 +49,9 @@ abstract class Animal
 
     public function produce(): void
     {
-        static::$countEat += $this->collect();
+        $produce = $this->product->getProduce();
 
-        $this->collect();
+        static::$countEat += $produce;
     }
 }
 
@@ -32,10 +60,10 @@ class Cow extends Animal
     public static $countEat = 0;
     public static $count = 0;
 
-    public function collect(): int
-    {
-        return rand(0, 5); // Генерация случайного количества молока
-    }
+    // public function collect(): int
+    // {
+    //     return rand(0, 5);
+    // }
 }
 
 class Chicken extends Animal
@@ -43,10 +71,10 @@ class Chicken extends Animal
     public static $countEat = 0;
     public static $count = 0;
 
-    public function collect(): int
-    {
-        return rand(0, 5); // Генерация случайного количества яиц
-    }
+    // public function collect(): int
+    // {
+    //     return rand(0, 5); // Генерация случайного количества яиц
+    // }
 }
 
 class Farm
@@ -101,10 +129,10 @@ $farm = Farm::getInstance();
 
 
 for ($i = 0; $i < 10; $i++) {
-    $farm->addAnimal(new Cow());
+    $farm->addAnimal(new Cow(new CowProduct()));
 }
 for ($i = 0; $i < 20; $i++) {
-    $farm->addAnimal(new Chicken());
+    $farm->addAnimal(new Chicken(new ChickenProduct()));
 }
 
 $farm->printAnimals();
@@ -116,10 +144,10 @@ for ($i = 0; $i < 7; $i++) {
 $farm->printProducts();
 
 for ($i = 0; $i < 5; $i++) {
-    $farm->addAnimal(new Chicken());
+    $farm->addAnimal(new Chicken(new ChickenProduct()));
 }
 
-$farm->addAnimal(new Cow());
+$farm->addAnimal(new Cow(new CowProduct()));
 
 $farm->printAnimals();
 
