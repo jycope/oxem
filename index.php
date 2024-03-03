@@ -1,5 +1,7 @@
 <?php
 
+
+//Реализация продукта для животного
 interface Product
 {
     public function getProduce();
@@ -59,32 +61,18 @@ class Cow extends Animal
 {
     public static $countEat = 0;
     public static $count = 0;
-
-    // public function collect(): int
-    // {
-    //     return rand(0, 5);
-    // }
 }
 
 class Chicken extends Animal
 {
     public static $countEat = 0;
     public static $count = 0;
-
-    // public function collect(): int
-    // {
-    //     return rand(0, 5); // Генерация случайного количества яиц
-    // }
 }
 
 class Farm
 {
     private static $instance;
     private $animals = [];
-
-    private function __construct()
-    {
-    }
 
     public static function getInstance()
     {
@@ -127,20 +115,22 @@ class Farm
 // Инициализация фермы
 $farm = Farm::getInstance();
 
-
+// Добавление уникального продукта
 for ($i = 0; $i < 10; $i++) {
     $farm->addAnimal(new Cow(new CowProduct()));
 }
 for ($i = 0; $i < 20; $i++) {
     $farm->addAnimal(new Chicken(new ChickenProduct()));
 }
-
+// Вывод всех животных
 $farm->printAnimals();
 
+// Собирание продуктов
 for ($i = 0; $i < 7; $i++) {
     $farm->collectProducts();
 }
 
+// Вывод продуктов
 $farm->printProducts();
 
 for ($i = 0; $i < 5; $i++) {
@@ -157,14 +147,3 @@ for ($i = 0; $i < 7; $i++) {
 }
 
 $farm->printProducts();
-
-// for ($i = 0; $i < 5; $i++) {
-//     $farm->addAnimal(new Chicken());
-// }
-// $farm->addAnimal(new Cow());
-
-// $farm->printAnimals();
-
-// for ($i = 0; $i < 7; $i++) {
-//     $farm->collectProducts();
-// }
